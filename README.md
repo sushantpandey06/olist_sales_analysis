@@ -1,159 +1,36 @@
-# Olist E-Commerce Sales Analysis
+# Olist E-Commerce SQL Analysis
 
-## Project Overview
+30+ SQL queries on the Brazilian Olist marketplace dataset. 99,441 orders across 7 tables.
 
-This project analyzes the Brazilian Olist E-Commerce dataset using PostgreSQL to explore marketplace revenue, customer behavior, seller performance, product satisfaction, and delivery operations.
+Dataset: Brazilian E-Commerce Public Dataset by Olist (Kaggle)
 
-The analysis focuses on identifying business insights and operational risks using advanced SQL techniques including window functions, Common Table Expressions (CTEs), cohort retention analysis, ranking functions, and multi-table joins.
+## What this covers
 
----
+Revenue trends, customer retention, seller performance, product reviews, and delivery operations. The queries use CTEs, window functions (LAG, LEAD, RANK, DENSE_RANK, ROW_NUMBER), PARTITION BY, running totals, moving averages, and cohort retention analysis.
 
-## Dataset Information
+## Main findings
 
-- **Dataset:** Brazilian E-Commerce Public Dataset by Olist
-- **Source:** Kaggle
-- **Time Period:** September 2016 – October 2018
-- **Orders:** 99,441
-- **Order Items:** 112,650
-- **Unique Customers:** 96,096
-- **Tables Used:** 8 relational tables
+The repeat customer rate is 3.12%. That means 97% of customers buy once and never come back. The cohort retention analysis confirmed this — less than 1% of customers are still active after their first month. This is the biggest problem in the dataset.
 
-### Tables
-- orders
-- customers
-- order_items
-- order_payments
-- order_reviews
-- products
-- sellers
-- geolocation
+Late deliveries get 2.57 average review stars. On-time deliveries get 4.29. That's a 1.72-point gap. Delivery speed is the single strongest driver of customer satisfaction on this platform.
 
----
+Revenue grew from about 138K to 1.19M per month during 2017, then stabilized above 1M through most of 2018.
 
-## Business Problems Addressed
+One seller was processing 1,300+ orders with an average delivery time of 22 days while the platform average is 12. That's a bottleneck.
 
-This project answers real-world business questions including:
+## Schema
 
-### Revenue & Sales Analysis
-- Total marketplace revenue
-- Monthly revenue growth trends
-- Month-over-month growth analysis
-- Revenue by product category
-- Revenue moving averages
-- Revenue seasonality patterns
+7 tables: orders, customers, order_items, order_payments, order_reviews, products, sellers. Connected through order_id, customer_id, product_id, seller_id.
 
-### Customer Analysis
-- Repeat customer rate
-- Customer lifetime value (CLV)
-- Customer retention trends
-- Cohort retention analysis
-- Customer ranking by spending
+## How to run
 
-### Seller & Product Analysis
-- Top-performing sellers
-- Seller delivery performance
-- Product category revenue analysis
-- High-revenue vs low-rating categories
+1. Set up PostgreSQL
+2. Run the CREATE TABLE statements from the SQL file
+3. Load the CSVs from Kaggle
+4. Run the queries in order — each one has a comment explaining what it answers and what the result means
 
-### Delivery & Operations
-- Average delivery time
-- Late delivery impact on customer reviews
-- Delivery bottlenecks
-- Delivery trends across sellers
+## What I'd improve
 
----
-
-## SQL Concepts & Techniques Used
-
-### SQL Fundamentals
-- GROUP BY
-- HAVING
-- INNER JOIN
-- LEFT JOIN
-- CASE WHEN
-- Aggregate Functions
-
-### Window Functions
-- LAG()
-- LEAD()
-- RANK()
-- DENSE_RANK()
-- ROW_NUMBER()
-- SUM() OVER
-- AVG() OVER
-- PARTITION BY
-
-### Advanced SQL
-- Common Table Expressions (CTEs)
-- Multi-step CTEs
-- Cohort Retention Analysis
-- Running Totals
-- Moving Averages
-- NULL Handling
-- NULLIF() for safe division
-
-### Date Functions
-- DATE_TRUNC()
-- EXTRACT()
-- EXTRACT(DOW)
-
----
-
-## Key Findings
-
-### 1. Severe Customer Retention Weakness
-- Repeat customer rate is only **3.12%**
-- Nearly **97% of customers purchased only once**
-- Cohort analysis showed retention dropping below 1% after the first month
-
-### 2. Delivery Performance Strongly Impacts Customer Satisfaction
-- On-time deliveries averaged **4.29 review score**
-- Late deliveries averaged only **2.57 review score**
-- Delivery speed appears to be one of the strongest drivers of customer satisfaction
-
-### 3. Marketplace Revenue Growth
-- Total marketplace revenue exceeded **16 million**
-- Revenue experienced rapid growth throughout 2017 and early 2018
-- Revenue later stabilized above 1 million per month
-
-### 4. Operational Bottlenecks Among Sellers
-- Some high-volume sellers averaged delivery times exceeding 20 days
-- One seller processed over 1,300 orders with nearly 22-day average delivery time
-
-### 5. Diversified Product Revenue
-- Revenue was distributed across multiple product categories
-- Health & beauty, watches, and home furnishing generated the highest revenue
-
----
-
-## Business Recommendations
-
-### Improve Customer Retention
-- Introduce loyalty programs
-- Create personalized promotions
-- Increase post-purchase engagement
-
-### Optimize Delivery Operations
-- Monitor high-delay sellers
-- Improve logistics partnerships
-- Reduce late delivery rates
-
-### Strengthen Seller Monitoring
-- Track seller delivery benchmarks
-- Monitor customer satisfaction by seller
-
-### Expand High-Satisfaction Categories
-- Prioritize categories with strong reviews and strong revenue
-
-
----
-
-## Tools Used
-
-- PostgreSQL
-- pgAdmin 4
-- SQL
-- GitHub
-
----
-
+- Add RFM segmentation (recency, frequency, monetary)
+- Basket analysis to find products bought together
+- Automate as stored procedures for monthly reporting
